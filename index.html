@@ -1,51 +1,148 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rowmari Bus Ticket | রৌমারী বাস টিকেট</title>
+<title>BusTicketRowmari - বাস টিকিট বুকিং</title>
 <style>
-:root{--navy:#12304a;--teal:#087f8c;--gold:#f2b84b;--bg:#f4f7fa;--ink:#183247;--muted:#657989;--line:#dce5eb}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(120deg,var(--navy),#155a70);color:white;padding:18px max(18px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:13px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:25px;font-weight:900}.brand h1{font-size:19px;margin:0}.brand p{margin:2px 0 0;font-size:12px;opacity:.85}.pill{border:1px solid #ffffff55;border-radius:999px;padding:8px 12px;font-size:12px}
-main{max-width:1120px;margin:auto;padding:24px 16px 48px}.hero{background:linear-gradient(115deg,#e5f6f7,#fff7e5);border:1px solid #d9e9e9;border-radius:22px;padding:26px;margin-bottom:22px}.eyebrow{color:var(--teal);font-weight:800;font-size:12px;letter-spacing:.08em}.hero h2{font-size:clamp(26px,4vw,38px);margin:8px 0}.hero p{color:var(--muted);margin:0;line-height:1.6}.search{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:22px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;background:white;color:var(--ink);font:inherit;min-width:0}.btn{border:0;border-radius:10px;background:var(--teal);color:white;font-weight:800;padding:12px 16px;cursor:pointer}.btn:hover{filter:brightness(.94)}.btn.gold{background:var(--gold);color:#183247}.search .btn{align-self:end;min-height:46px}
-.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 5px 20px #16354b08}.panel h3{margin:0 0 14px;font-size:18px}.muted{color:var(--muted);font-size:13px}.bus{border:1px solid var(--line);border-radius:13px;padding:15px;margin:12px 0}.bus-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.bus h4{margin:0 0 5px;font-size:16px}.price{font-size:21px;font-weight:900;color:var(--teal)}.meta{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:12px 0}.seatgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.seat{border:1px solid #a9c9cb;background:#effafb;color:#075d66;border-radius:8px;padding:10px 2px;font-weight:800;cursor:pointer}.seat.selected{background:var(--teal);color:white}.seat.booked{background:#e4e8ec;color:#7d8a94;border-color:#d6dde2;cursor:not-allowed}.summary{background:#f5fafb;border-radius:12px;padding:14px;margin-top:12px}.summary p{display:flex;justify-content:space-between;margin:7px 0}.admin{margin-top:20px}.admin form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.admin form .wide{grid-column:1/-1}.note{background:#fff5dc;border:1px solid #f3dda1;border-radius:12px;padding:13px;color:#6d5318;font-size:13px;line-height:1.55;margin-top:16px}.status{font-size:12px;color:var(--teal);font-weight:800}.ticket{display:none;border:2px dashed var(--teal);border-radius:14px;padding:16px;margin-top:14px}.ticket h4{margin:0 0 10px}.ticket .ticketline{border-bottom:1px solid var(--line);padding:7px 0;display:flex;justify-content:space-between;gap:12px}.small{font-size:11px;color:var(--muted)}footer{text-align:center;padding:24px;color:var(--muted);font-size:12px}
-@media(max-width:760px){.search{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}.admin form{grid-template-columns:1fr}.admin form .wide{grid-column:auto}}@media(max-width:430px){.search{grid-template-columns:1fr}.hero{padding:20px}.brand h1{font-size:16px}}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f7fc;color:#15304d}
+header{background:#073568;color:white;padding:20px;text-align:center}
+header h2{margin:0;color:#ffda35}
+.hero{background:#075da9;color:white;text-align:center;padding:45px 15px}
+.hero h1{font-size:32px}
+.container{max-width:760px;margin:25px auto;padding:22px;background:white;border-radius:14px;box-shadow:0 4px 18px #0001}
+label{display:block;margin-top:14px;font-weight:bold}
+input,select{width:100%;padding:12px;margin-top:6px;border:1px solid #ccd8e5;border-radius:7px;font-size:16px}
+button{margin-top:20px;width:100%;padding:14px;background:#ffd52e;border:0;border-radius:8px;font-size:17px;font-weight:bold;cursor:pointer}
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.route{padding:16px;background:#edf5ff;border-radius:8px}
+footer{text-align:center;padding:22px;background:#073568;color:white;margin-top:30px}
+.small{font-size:13px;line-height:1.6;color:#586d82}
+@media(max-width:520px){.routes{grid-template-columns:1fr}.hero h1{font-size:26px}}
 </style>
 </head>
 <body>
-<header><div class="brand"><div class="logo">R</div><div><h1>Rowmari Bus Ticket</h1><p>রৌমারী বাস টিকেট</p></div></div><div class="pill">রৌমারী ↔ ঢাকা · ডেমো বুকিং</div></header>
-<main>
-<section class="hero"><div class="eyebrow">সহজ · নিরাপদ · অনলাইন</div><h2>আপনার যাত্রা শুরু হোক এখান থেকে</h2><p>রৌমারী থেকে ঢাকা বা ঢাকা থেকে রৌমারী—বাস খুঁজুন, সিট নির্বাচন করুন এবং বুকিংয়ের নমুনা দেখুন।</p>
-<div class="search">
-<div class="field"><label for="from">যাত্রা শুরু</label><select id="from"><option>রৌমারী</option><option>ঢাকা</option></select></div>
-<div class="field"><label for="to">গন্তব্য</label><select id="to"><option>ঢাকা</option><option>রৌমারী</option></select></div>
-<div class="field"><label for="date">যাত্রার তারিখ</label><input id="date" type="date"></div>
-<div class="field"><label>&nbsp;</label><button class="btn" onclick="searchTrips()">বাস খুঁজুন</button></div>
-</div></section>
-<div class="layout">
-<section class="panel"><h3>উপলভ্য বাস <span class="muted">(ডেমো ডেটা)</span></h3><div id="routeLabel" class="muted">রৌমারী → ঢাকা · নমুনা সময়সূচি</div>
-<div class="bus"><div class="bus-top"><div><h4>রৌমারী এক্সপ্রেস</h4><div class="muted">এসি নয় · ৪০ সিট · নমুনা অপারেটর</div></div><div class="price">৳ ৭০০</div></div><div class="meta"><span>🕘 ছাড়ে: রাত ৯:০০</span><span>🕕 পৌঁছায়: সকাল ৬:০০</span><span>◉ সিট নির্বাচন করুন</span></div><button class="btn" onclick="chooseBus('রৌমারী এক্সপ্রেস',700)">সিট নির্বাচন</button></div>
-<div class="bus"><div class="bus-top"><div><h4>নদী বাংলা পরিবহন</h4><div class="muted">এসি · ৩৬ সিট · নমুনা অপারেটর</div></div><div class="price">৳ ১,০০০</div></div><div class="meta"><span>🕙 ছাড়ে: রাত ১০:০০</span><span>🕖 পৌঁছায়: সকাল ৭:০০</span><span>◉ সিট নির্বাচন করুন</span></div><button class="btn" onclick="chooseBus('নদী বাংলা পরিবহন',1000)">সিট নির্বাচন</button></div>
-<div class="note">এটি একটি প্রাথমিক ফ্রন্টএন্ড ডেমো। এখানে দেখানো বাস, ভাড়া, সময়সূচি ও বুকিং বাস্তব নয়। প্রকাশের আগে অ্যাডমিন-নিয়ন্ত্রিত ডেটাবেসের সঙ্গে সংযোগ করতে হবে।</div>
+
+<header>
+<h2>🚌 BusTicketRowmari</h2>
+<p>নিরাপদ যাত্রা, সহজ বুকিং</p>
+</header>
+
+<section class="hero">
+<h1>অনলাইনে বাস টিকিট বুকিং</h1>
+<p>আপনার যাত্রার তথ্য দিন এবং WhatsApp-এ বুকিং অনুরোধ পাঠান।</p>
 </section>
-<aside class="panel" id="bookingPanel"><h3>সিট নির্বাচন ও বুকিং</h3><div id="selectedBus" class="muted">প্রথমে একটি বাস বেছে নিন।</div><div id="seatGrid" class="seatgrid"></div><div class="field"><label for="passenger">যাত্রীর নাম</label><input id="passenger" placeholder="পূর্ণ নাম"></div><div class="field" style="margin-top:10px"><label for="phone">মোবাইল নম্বর</label><input id="phone" inputmode="tel" placeholder="01XXXXXXXXX" maxlength="11"></div><div class="summary"><p><span>নির্বাচিত সিট</span><strong id="seatSummary">—</strong></p><p><span>মোট ভাড়া</span><strong id="total">৳ ০</strong></p></div><button class="btn gold" style="width:100%;margin-top:12px" onclick="createDemoTicket()">ডেমো টিকিট তৈরি করুন</button><div id="ticket" class="ticket"><h4>Rowmari Bus Ticket</h4><div class="status">ডেমো টিকিট — পেমেন্ট হয়নি</div><div id="ticketDetails"></div><button class="btn" style="margin-top:12px" onclick="window.print()">প্রিন্ট / PDF হিসেবে সংরক্ষণ</button></div></aside>
+
+<div class="container">
+<h2>🎫 টিকিট বুকিং</h2>
+
+<form id="bookingForm">
+<label>যাত্রা শুরু</label>
+<select id="from" required>
+<option value="">স্থান নির্বাচন করুন</option>
+<option>রৌমারী</option>
+<option>ঢাকা</option>
+<option>কুড়িগ্রাম</option>
+<option>জামালপুর</option>
+</select>
+
+<label>গন্তব্য</label>
+<select id="to" required>
+<option value="">গন্তব্য নির্বাচন করুন</option>
+<option>ঢাকা</option>
+<option>রৌমারী</option>
+<option>কুড়িগ্রাম</option>
+<option>জামালপুর</option>
+</select>
+
+<label>যাত্রার তারিখ</label>
+<input type="date" id="date" required>
+
+<label>যাত্রীর সংখ্যা</label>
+<select id="seats">
+<option>1</option><option>2</option><option>3</option>
+<option>4</option><option>5</option>
+</select>
+
+<label>যাত্রীর নাম</label>
+<input id="name" required placeholder="আপনার নাম">
+
+<label>মোবাইল নম্বর</label>
+<input id="phone" required type="tel" placeholder="01XXXXXXXXX">
+
+<label>পেমেন্ট পদ্ধতি</label>
+<select id="payment">
+<option>বিকাশ</option>
+<option>নগদ</option>
+<option>কাউন্টারে পেমেন্ট</option>
+</select>
+
+<button type="submit">WhatsApp-এ বুকিং করুন</button>
+<p id="message" class="small"></p>
+</form>
+
+<p class="small">
+বুকিং অনুরোধ পাঠানোর পর কাউন্টার থেকে সিট ও ভাড়া নিশ্চিত করুন।
+পেমেন্ট করার আগে অফিসিয়াল নম্বর যাচাই করুন।
+</p>
 </div>
-<section class="panel admin"><h3>অ্যাডমিন প্যানেল — UI নমুনা</h3><p class="muted">বাস ও ট্রিপ যোগ করার ফর্মের নমুনা। এই সংস্করণে তথ্য সার্ভারে সংরক্ষণ হয় না এবং অ্যাডমিন লগইন নেই।</p><form onsubmit="addDemoBus(event)"><div class="field"><label>বাস কোম্পানি</label><input id="company" required placeholder="কোম্পানির নাম"></div><div class="field"><label>বাসের ধরন</label><select id="busType"><option>নন-এসি</option><option>এসি</option></select></div><div class="field"><label>ছাড়ার সময়</label><input id="departure" type="time" required></div><div class="field"><label>প্রতি সিটের ভাড়া (৳)</label><input id="fare" type="number" min="1" required></div><div class="field wide"><button class="btn" type="submit">ডেমো বাস যোগ করুন</button></div></form><div id="adminMessage" class="muted" style="margin-top:10px"></div></section>
-<div class="note"><strong>বাস্তব সাইটে যাওয়ার আগে:</strong> নিরাপদ সার্ভার, অ্যাডমিন অথেনটিকেশন, সিট লক/ট্রানজ্যাকশন, সার্ভার-সাইড পেমেন্ট যাচাই, বাতিল/রিফান্ড নিয়ম, গোপনীয়তা নীতি এবং অপারেটরদের অনুমতি যুক্ত করতে হবে। bKash/Nagad-এর লাইভ পেমেন্ট চালু করতে অনুমোদিত মার্চেন্ট/গেটওয়ে অ্যাকাউন্ট ও গোপন API credentials লাগবে।</div>
-</main><footer>© Rowmari Bus Ticket · প্রাথমিক ওয়েবসাইট প্রোটোটাইপ</footer>
+
+<div class="container">
+<h2>জনপ্রিয় রুট</h2>
+<div class="routes">
+<div class="route"><b>রৌমারী → ঢাকা</b><p>ভাড়া কাউন্টারে যাচাই করুন</p></div>
+<div class="route"><b>ঢাকা → রৌমারী</b><p>ভাড়া কাউন্টারে যাচাই করুন</p></div>
+<div class="route"><b>রৌমারী → কুড়িগ্রাম</b><p>সময় ও ভাড়া নিশ্চিত করুন</p></div>
+<div class="route"><b>রৌমারী → জামালপুর</b><p>সময় ও ভাড়া নিশ্চিত করুন</p></div>
+</div>
+</div>
+
+<footer>
+<strong>BusTicketRowmari</strong>
+<p>© <span id="year"></span> All rights reserved</p>
+</footer>
+
 <script>
-let currentBus='',currentFare=0,selectedSeats=[];
-const bookedDemo=['A3','B2','C4','D1'];
-document.getElementById('date').value=new Date().toISOString().slice(0,10);
-function searchTrips(){const f=document.getElementById('from').value,t=document.getElementById('to').value;if(f===t){alert('যাত্রা শুরুর স্থান ও গন্তব্য আলাদা নির্বাচন করুন।');return;}document.getElementById('routeLabel').textContent=f+' → '+t+' · নমুনা সময়সূচি';document.getElementById('bookingPanel').scrollIntoView({behavior:'smooth',block:'start'});}
-function chooseBus(name,fare){currentBus=name;currentFare=fare;selectedSeats=[];document.getElementById('selectedBus').textContent=name+' · প্রতি সিট ৳ '+fare;const grid=document.getElementById('seatGrid');grid.innerHTML='';'A1 A2 A3 A4 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 E1 E2 E3 E4'.split(' ').forEach(s=>{const b=document.createElement('button');b.textContent=s;b.className='seat'+(bookedDemo.includes(s)?' booked':'');b.disabled=bookedDemo.includes(s);b.onclick=()=>toggleSeat(s,b);grid.appendChild(b)});updateTotal();document.getElementById('ticket').style.display='none';}
-function toggleSeat(s,b){if(selectedSeats.includes(s)){selectedSeats=selectedSeats.filter(x=>x!==s);b.classList.remove('selected')}else{selectedSeats.push(s);b.classList.add('selected')}updateTotal();}
-function updateTotal(){document.getElementById('seatSummary').textContent=selectedSeats.join(', ')||'—';document.getElementById('total').textContent='৳ '+(selectedSeats.length*currentFare).toLocaleString('bn-BD');}
-function createDemoTicket(){const name=document.getElementById('passenger').value.trim(),phone=document.getElementById('phone').value.trim(),date=document.getElementById('date').value;if(!currentBus){alert('আগে একটি বাস নির্বাচন করুন।');return;}if(!selectedSeats.length){alert('অন্তত একটি সিট নির্বাচন করুন।');return;}if(name.length<2){alert('যাত্রীর নাম লিখুন।');return;}if(!/^01[3-9]\d{8}$/.test(phone)){alert('সঠিক ১১ সংখ্যার বাংলাদেশি মোবাইল নম্বর লিখুন।');return;}const id='RBT-DEMO-'+Math.random().toString(36).slice(2,8).toUpperCase();document.getElementById('ticketDetails').innerHTML=`<div class="ticketline"><span>বুকিং নম্বর</span><strong>${id}</strong></div><div class="ticketline"><span>যাত্রী</span><strong>${escapeHTML(name)}</strong></div><div class="ticketline"><span>মোবাইল</span><strong>${escapeHTML(phone)}</strong></div><div class="ticketline"><span>রুট</span><strong>${escapeHTML(document.getElementById('from').value)} → ${escapeHTML(document.getElementById('to').value)}</strong></div><div class="ticketline"><span>তারিখ</span><strong>${date}</strong></div><div class="ticketline"><span>বাস</span><strong>${escapeHTML(currentBus)}</strong></div><div class="ticketline"><span>সিট</span><strong>${selectedSeats.join(', ')}</strong></div><div class="ticketline"><span>মোট ভাড়া</span><strong>৳ ${(selectedSeats.length*currentFare).toLocaleString('bn-BD')}</strong></div>`;document.getElementById('ticket').style.display='block';}
-function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function addDemoBus(e){e.preventDefault();document.getElementById('adminMessage').textContent='ডেমো ফর্ম জমা হয়েছে: '+document.getElementById('company').value+' · '+document.getElementById('busType').value+' · '+document.getElementById('departure').value+' · ৳ '+document.getElementById('fare').value+'. বাস্তব সংস্করণে এটি নিরাপদ ডেটাবেসে সংরক্ষণ করা হবে।';}
+// এখানে আপনার WhatsApp নম্বর বসান।
+// বাংলাদেশের নম্বরের ফরম্যাট: 8801XXXXXXXXX
+const WHATSAPP_NUMBER = "8801XXXXXXXXX";
+
+document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("date").min = new Date().toISOString().slice(0,10);
+
+document.getElementById("bookingForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const from = document.getElementById("from").value;
+  const to = document.getElementById("to").value;
+  const message = document.getElementById("message");
+
+  if(from === to){
+    message.textContent = "যাত্রা শুরু ও গন্তব্য আলাদা নির্বাচন করুন।";
+    return;
+  }
+
+  if(WHATSAPP_NUMBER.includes("X")){
+    message.textContent = "প্রথমে কোডে আপনার WhatsApp নম্বর বসান।";
+    return;
+  }
+
+  const text =
+    "BusTicketRowmari Booking Request\n" +
+    "যাত্রা: " + from + " → " + to + "\n" +
+    "তারিখ: " + document.getElementById("date").value + "\n" +
+    "যাত্রী: " + document.getElementById("seats").value + "\n" +
+    "নাম: " + document.getElementById("name").value + "\n" +
+    "ফোন: " + document.getElementById("phone").value + "\n" +
+    "পেমেন্ট: " + document.getElementById("payment").value;
+
+  window.open(
+    "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text),
+    "_blank"
+  );
+});
 </script>
 </body>
 </html>
