@@ -200,7 +200,7 @@ function renderSeats(){
  const booked = bookedSeats[currentBus.id] || [];
 
  // ৮ সারি × ৪ সিট = ৪০টি নমুনা সিট
- for(let row=0;row<10;row++){
+for(let row=0;row<10;row++){
   for(let col=0;col<5;col++){
    if(col===2){
     const aisle=document.createElement("div");
@@ -208,7 +208,7 @@ function renderSeats(){
     grid.appendChild(aisle);
     continue;
    }
-   const seatNum = col<2 ? col+1 : col-1;
+   const seatNum = col < 2 ? col + 1 : col;
    const id = String.fromCharCode(65+row)+seatNum;
    const btn=document.createElement("button");
    btn.type="button";
