@@ -3,146 +3,158 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BusTicketRowmari - বাস টিকিট বুকিং</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BusTicketRowmari - Seat Booking</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f2f7fc;color:#15304d}
-header{background:#073568;color:white;padding:20px;text-align:center}
-header h2{margin:0;color:#ffda35}
-.hero{background:#075da9;color:white;text-align:center;padding:45px 15px}
-.hero h1{font-size:32px}
-.container{max-width:760px;margin:25px auto;padding:22px;background:white;border-radius:14px;box-shadow:0 4px 18px #0001}
-label{display:block;margin-top:14px;font-weight:bold}
-input,select{width:100%;padding:12px;margin-top:6px;border:1px solid #ccd8e5;border-radius:7px;font-size:16px}
-button{margin-top:20px;width:100%;padding:14px;background:#ffd52e;border:0;border-radius:8px;font-size:17px;font-weight:bold;cursor:pointer}
-.routes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.route{padding:16px;background:#edf5ff;border-radius:8px}
-footer{text-align:center;padding:22px;background:#073568;color:white;margin-top:30px}
-.small{font-size:13px;line-height:1.6;color:#586d82}
-@media(max-width:520px){.routes{grid-template-columns:1fr}.hero h1{font-size:26px}}
+body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:#172033}
+header{background:#075e54;color:white;text-align:center;padding:22px}
+main{max-width:650px;margin:20px auto;padding:15px}
+.card{background:white;padding:20px;border-radius:14px;box-shadow:0 3px 12px #0001}
+input,select{box-sizing:border-box;width:100%;padding:12px;margin:7px 0 14px;border:1px solid #ccd5df;border-radius:7px;font-size:16px}
+.bus{border:2px solid #d5dde5;border-radius:25px;padding:20px 12px;margin:18px auto;max-width:360px}
+.driver{text-align:right;border-bottom:2px dashed #ccc;padding:0 8px 14px;margin-bottom:16px}
+.seats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.seat{padding:13px 2px;border:0;border-radius:7px;background:#d1fae5;color:#065f46;font-weight:bold;cursor:pointer}
+.seat.selected{background:#2563eb;color:white}
+.seat.booked{background:#ef4444;color:white;cursor:not-allowed}
+.legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;font-size:13px;margin:15px 0}
+.dot{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px}
+button.submit{width:100%;background:#128c7e;color:white;border:0;border-radius:8px;padding:14px;font-size:17px;font-weight:bold;cursor:pointer}
+#total{font-size:19px;font-weight:bold;color:#075e54}
+.note{font-size:13px;color:#64748b;line-height:1.6}
 </style>
 </head>
 <body>
-
 <header>
-<h2>🚌 BusTicketRowmari</h2>
-<p>নিরাপদ যাত্রা, সহজ বুকিং</p>
+  <h1>🚌 BusTicketRowmari</h1>
+  <p>নিজের পছন্দমতো আসন নির্বাচন করুন</p>
 </header>
 
-<section class="hero">
-<h1>অনলাইনে বাস টিকিট বুকিং</h1>
-<p>আপনার যাত্রার তথ্য দিন এবং WhatsApp-এ বুকিং অনুরোধ পাঠান।</p>
-</section>
+<main>
+<div class="card">
+  <label>যাত্রার রুট</label>
+  <select id="route">
+    <option>Rowmari → Dhaka</option>
+    <option>Dhaka → Rowmari</option>
+  </select>
 
-<div class="container">
-<h2>🎫 টিকিট বুকিং</h2>
+  <label>যাত্রার তারিখ</label>
+  <input type="date" id="date" required>
 
-<form id="bookingForm">
-<label>যাত্রা শুরু</label>
-<select id="from" required>
-<option value="">স্থান নির্বাচন করুন</option>
-<option>রৌমারী</option>
-<option>ঢাকা</option>
-<option>কুড়িগ্রাম</option>
-<option>জামালপুর</option>
-</select>
+  <label>যাত্রীর নাম</label>
+  <input id="name" placeholder="আপনার পুরো নাম" required>
 
-<label>গন্তব্য</label>
-<select id="to" required>
-<option value="">গন্তব্য নির্বাচন করুন</option>
-<option>ঢাকা</option>
-<option>রৌমারী</option>
-<option>কুড়িগ্রাম</option>
-<option>জামালপুর</option>
-</select>
+  <label>মোবাইল নম্বর</label>
+  <input id="phone" type="tel" placeholder="01XXXXXXXXX" required>
 
-<label>যাত্রার তারিখ</label>
-<input type="date" id="date" required>
+  <h3>আপনার আসন বেছে নিন</h3>
+  <div class="legend">
+    <span><i class="dot" style="background:#d1fae5"></i>খালি</span>
+    <span><i class="dot" style="background:#2563eb"></i>আপনার নির্বাচন</span>
+    <span><i class="dot" style="background:#ef4444"></i>সংরক্ষিত</span>
+  </div>
 
-<label>যাত্রীর সংখ্যা</label>
-<select id="seats">
-<option>1</option><option>2</option><option>3</option>
-<option>4</option><option>5</option>
-</select>
+  <div class="bus">
+    <div class="driver">🚍 ড্রাইভার</div>
+    <div class="seats" id="seats"></div>
+  </div>
 
-<label>যাত্রীর নাম</label>
-<input id="name" required placeholder="আপনার নাম">
+  <p>নির্বাচিত আসন: <strong id="chosen">কোনো আসন নয়</strong></p>
+  <p>প্রতি আসনের ভাড়া: <span id="fare"></span> টাকা</p>
+  <p id="total">মোট ভাড়া: ০ টাকা</p>
 
-<label>মোবাইল নম্বর</label>
-<input id="phone" required type="tel" placeholder="01XXXXXXXXX">
-
-<label>পেমেন্ট পদ্ধতি</label>
-<select id="payment">
-<option>বিকাশ</option>
-<option>নগদ</option>
-<option>কাউন্টারে পেমেন্ট</option>
-</select>
-
-<button type="submit">WhatsApp-এ বুকিং করুন</button>
-<p id="message" class="small"></p>
-</form>
-
-<p class="small">
-বুকিং অনুরোধ পাঠানোর পর কাউন্টার থেকে সিট ও ভাড়া নিশ্চিত করুন।
-পেমেন্ট করার আগে অফিসিয়াল নম্বর যাচাই করুন।
-</p>
+  <button class="submit" onclick="book()">WhatsApp-এ বুকিং অনুরোধ পাঠান</button>
+  <p class="note">আসন নির্বাচন বুকিং নিশ্চিত করে না। কর্তৃপক্ষের নিশ্চিতকরণের পরই বুকিং চূড়ান্ত হবে।</p>
 </div>
-
-<div class="container">
-<h2>জনপ্রিয় রুট</h2>
-<div class="routes">
-<div class="route"><b>রৌমারী → ঢাকা</b><p>ভাড়া কাউন্টারে যাচাই করুন</p></div>
-<div class="route"><b>ঢাকা → রৌমারী</b><p>ভাড়া কাউন্টারে যাচাই করুন</p></div>
-<div class="route"><b>রৌমারী → কুড়িগ্রাম</b><p>সময় ও ভাড়া নিশ্চিত করুন</p></div>
-<div class="route"><b>রৌমারী → জামালপুর</b><p>সময় ও ভাড়া নিশ্চিত করুন</p></div>
-</div>
-</div>
-
-<footer>
-<strong>BusTicketRowmari</strong>
-<p>© <span id="year"></span> All rights reserved</p>
-</footer>
+</main>
 
 <script>
-// এখানে আপনার WhatsApp নম্বর বসান।
-// বাংলাদেশের নম্বরের ফরম্যাট: 8801XXXXXXXXX
-const WHATSAPP_NUMBER = "8801964387093";
+// আপনার WhatsApp নম্বর দিন: দেশের কোডসহ, + চিহ্ন ছাড়া
+const WHATSAPP_NUMBER = "8801XXXXXXXXX";
 
-document.getElementById("year").textContent = new Date().getFullYear();
-document.getElementById("date").min = new Date().toISOString().slice(0,10);
+// প্রতি আসনের নমুনা ভাড়া
+const FARE = 800;
 
-document.getElementById("bookingForm").addEventListener("submit", function(e){
-  e.preventDefault();
+// পরীক্ষার জন্য সংরক্ষিত আসন। প্রকৃত বুকিং ডেটাবেস থেকে আসতে হবে।
+const BOOKED_SEATS = [];
 
-  const from = document.getElementById("from").value;
-  const to = document.getElementById("to").value;
-  const message = document.getElementById("message");
+const selected = new Set();
+const seatArea = document.getElementById("seats");
+document.getElementById("fare").textContent = FARE;
 
-  if(from === to){
-    message.textContent = "যাত্রা শুরু ও গন্তব্য আলাদা নির্বাচন করুন।";
+document.getElementById("date").min =
+  new Date(Date.now() - new Date().getTimezoneOffset()*60000)
+  .toISOString().slice(0,10);
+
+for(let row=1; row<=8; row++){
+  for(let col=1; col<=4; col++){
+    const id = String.fromCharCode(64+row)+col;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "seat";
+    btn.textContent = id;
+
+    if(BOOKED_SEATS.includes(id)){
+      btn.classList.add("booked");
+      btn.disabled = true;
+    } else {
+      btn.onclick = () => {
+        if(selected.has(id)){
+          selected.delete(id);
+          btn.classList.remove("selected");
+        } else {
+          selected.add(id);
+          btn.classList.add("selected");
+        }
+        update();
+      };
+    }
+    seatArea.appendChild(btn);
+  }
+}
+
+function update(){
+  document.getElementById("chosen").textContent =
+    selected.size ? [...selected].join(", ") : "কোনো আসন নয়";
+  document.getElementById("total").textContent =
+    "মোট ভাড়া: " + (selected.size * FARE) + " টাকা";
+}
+
+function book(){
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const date = document.getElementById("date").value;
+  const route = document.getElementById("route").value;
+
+  if(!name || !phone || !date || selected.size===0){
+    alert("নাম, মোবাইল, তারিখ দিন এবং অন্তত একটি আসন নির্বাচন করুন।");
+    return;
+  }
+
+  if(!/^01[3-9]\d{8}$/.test(phone)){
+    alert("সঠিক ১১ সংখ্যার বাংলাদেশি মোবাইল নম্বর দিন।");
     return;
   }
 
   if(WHATSAPP_NUMBER.includes("X")){
-    message.textContent = "প্রথমে কোডে আপনার WhatsApp নম্বর বসান।";
+    alert("প্রথমে কোডে আপনার WhatsApp নম্বর বসান।");
     return;
   }
 
-  const text =
-    "BusTicketRowmari Booking Request\n" +
-    "যাত্রা: " + from + " → " + to + "\n" +
-    "তারিখ: " + document.getElementById("date").value + "\n" +
-    "যাত্রী: " + document.getElementById("seats").value + "\n" +
-    "নাম: " + document.getElementById("name").value + "\n" +
-    "ফোন: " + document.getElementById("phone").value + "\n" +
-    "পেমেন্ট: " + document.getElementById("payment").value;
+  const message =
+    "BusTicketRowmari বুকিং অনুরোধ%0A" +
+    "নাম: " + encodeURIComponent(name) + "%0A" +
+    "মোবাইল: " + encodeURIComponent(phone) + "%0A" +
+    "রুট: " + encodeURIComponent(route) + "%0A" +
+    "তারিখ: " + encodeURIComponent(date) + "%0A" +
+    "আসন: " + encodeURIComponent([...selected].join(", ")) + "%0A" +
+    "মোট ভাড়া: " + (selected.size * FARE) + " টাকা";
 
   window.open(
-    "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text),
+    "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + message,
     "_blank"
   );
-});
+}
 </script>
 </body>
 </html>
