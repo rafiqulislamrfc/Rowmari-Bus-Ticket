@@ -3,157 +3,292 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BusTicketRowmari - Seat Booking</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BusTicketRowmari | বাস টিকিট</title>
 <style>
-body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:#172033}
-header{background:#075e54;color:white;text-align:center;padding:22px}
-main{max-width:650px;margin:20px auto;padding:15px}
-.card{background:white;padding:20px;border-radius:14px;box-shadow:0 3px 12px #0001}
-input,select{box-sizing:border-box;width:100%;padding:12px;margin:7px 0 14px;border:1px solid #ccd5df;border-radius:7px;font-size:16px}
-.bus{border:2px solid #d5dde5;border-radius:25px;padding:20px 12px;margin:18px auto;max-width:360px}
-.driver{text-align:right;border-bottom:2px dashed #ccc;padding:0 8px 14px;margin-bottom:16px}
-.seats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.seat{padding:13px 2px;border:0;border-radius:7px;background:#d1fae5;color:#065f46;font-weight:bold;cursor:pointer}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033}
+header{background:#087e70;color:white;padding:22px 15px;text-align:center}
+header h1{margin:0 0 8px}
+main{max-width:850px;margin:22px auto;padding:0 14px}
+.card{background:white;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 3px 15px #0000000b}
+h2{font-size:21px;margin-top:0}
+label{display:block;font-weight:bold;margin:10px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{cursor:pointer}
+.primary{background:#087e70;color:white;border:0;padding:13px;border-radius:8px;font-size:16px;font-weight:bold;width:100%;margin-top:12px}
+.bus-option{border:1px solid #d8e0e9;border-radius:10px;padding:14px;margin:12px 0;cursor:pointer}
+.bus-option.active{border:2px solid #087e70;background:#f0fdfa}
+.bus-option h3{margin:0 0 8px}
+.muted{color:#64748b;font-size:14px}
+.price{font-size:19px;color:#087e70;font-weight:bold}
+#seatSection[hidden],#busSection[hidden],#bookingSection[hidden]{display:none}
+.bus-body{max-width:350px;margin:16px auto;padding:16px;border:2px solid #dbe2ea;border-radius:22px}
+.driver{text-align:right;border-bottom:1px dashed #cbd5e1;padding-bottom:14px;margin-bottom:15px}
+.seat-grid{display:grid;grid-template-columns:1fr 1fr 24px 1fr 1fr;gap:9px}
+.seat{background:#d1fae5;color:#065f46;border:0;border-radius:7px;padding:12px 2px;font-weight:bold}
 .seat.selected{background:#2563eb;color:white}
-.seat.booked{background:#ef4444;color:white;cursor:not-allowed}
-.legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;font-size:13px;margin:15px 0}
-.dot{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px}
-button.submit{width:100%;background:#128c7e;color:white;border:0;border-radius:8px;padding:14px;font-size:17px;font-weight:bold;cursor:pointer}
-#total{font-size:19px;font-weight:bold;color:#075e54}
-.note{font-size:13px;color:#64748b;line-height:1.6}
+.seat.booked{background:#fecaca;color:#991b1b;cursor:not-allowed}
+.aisle{pointer-events:none}
+.legend{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:13px}
+.legend span{display:flex;align-items:center;gap:5px}
+.dot{width:13px;height:13px;border-radius:3px;display:inline-block}
+.summary{background:#f0fdfa;padding:14px;border-radius:9px;line-height:1.8}
+.small{font-size:13px;color:#64748b;line-height:1.6}
+@media(max-width:450px){.grid{grid-template-columns:1fr}.card{padding:14px}}
 </style>
 </head>
 <body>
 <header>
   <h1>🚌 BusTicketRowmari</h1>
-  <p>নিজের পছন্দমতো আসন নির্বাচন করুন</p>
+  <div>সহজে বাস বাছাই করুন, নিজের সিট নিজে নির্বাচন করুন</div>
 </header>
 
 <main>
-<div class="card">
-  <label>যাত্রার রুট</label>
-  <select id="route">
-    <option>Rowmari → Dhaka</option>
-    <option>Dhaka → Rowmari</option>
-  </select>
+<section class="card">
+  <h2>১. আপনার যাত্রা খুঁজুন</h2>
+  <div class="grid">
+    <div>
+      <label for="from">কোথা থেকে</label>
+      <select id="from">
+        <option>Rowmari</option><option>Dhaka</option>
+      </select>
+    </div>
+    <div>
+      <label for="to">কোথায় যাবেন</label>
+      <select id="to">
+        <option>Dhaka</option><option>Rowmari</option>
+      </select>
+    </div>
+    <div>
+      <label for="date">যাত্রার তারিখ</label>
+      <input type="date" id="date">
+    </div>
+    <div>
+      <label for="count">যাত্রী সংখ্যা</label>
+      <select id="count">
+        <option value="1">১ জন</option>
+        <option value="2">২ জন</option>
+        <option value="3">৩ জন</option>
+        <option value="4">৪ জন</option>
+      </select>
+    </div>
+  </div>
+  <button class="primary" onclick="searchBuses()">বাস খুঁজুন</button>
+</section>
 
-  <label>যাত্রার তারিখ</label>
-  <input type="date" id="date" required>
+<section class="card" id="busSection" hidden>
+  <h2>২. আপনার পছন্দের বাস নির্বাচন করুন</h2>
+  <p class="muted">নিচের বাসগুলো নমুনা তথ্য। প্রকাশের আগে প্রকৃত বাসের তথ্য বসাতে হবে।</p>
+  <div id="busList"></div>
+</section>
 
-  <label>যাত্রীর নাম</label>
-  <input id="name" placeholder="আপনার পুরো নাম" required>
-
-  <label>মোবাইল নম্বর</label>
-  <input id="phone" type="tel" placeholder="01XXXXXXXXX" required>
-
-  <h3>আপনার আসন বেছে নিন</h3>
+<section class="card" id="seatSection" hidden>
+  <h2>৩. আপনার সিট নির্বাচন করুন</h2>
+  <div id="selectedBusInfo"></div>
   <div class="legend">
     <span><i class="dot" style="background:#d1fae5"></i>খালি</span>
-    <span><i class="dot" style="background:#2563eb"></i>আপনার নির্বাচন</span>
-    <span><i class="dot" style="background:#ef4444"></i>সংরক্ষিত</span>
+    <span><i class="dot" style="background:#2563eb"></i>আপনার সিট</span>
+    <span><i class="dot" style="background:#fecaca"></i>সংরক্ষিত (ডেমো)</span>
   </div>
-
-  <div class="bus">
+  <div class="bus-body">
     <div class="driver">🚍 ড্রাইভার</div>
-    <div class="seats" id="seats"></div>
+    <div id="seatGrid" class="seat-grid"></div>
   </div>
+  <div class="summary">
+    <div>নির্বাচিত সিট: <strong id="chosenSeats">নেই</strong></div>
+    <div>মোট ভাড়া: <strong id="totalFare">০ টাকা</strong></div>
+  </div>
+  <button class="primary" onclick="showBooking()">এই সিট নিয়ে এগিয়ে যান</button>
+</section>
 
-  <p>নির্বাচিত আসন: <strong id="chosen">কোনো আসন নয়</strong></p>
-  <p>প্রতি আসনের ভাড়া: <span id="fare"></span> টাকা</p>
-  <p id="total">মোট ভাড়া: ০ টাকা</p>
-
-  <button class="submit" onclick="book()">WhatsApp-এ বুকিং অনুরোধ পাঠান</button>
-  <p class="note">আসন নির্বাচন বুকিং নিশ্চিত করে না। কর্তৃপক্ষের নিশ্চিতকরণের পরই বুকিং চূড়ান্ত হবে।</p>
-</div>
+<section class="card" id="bookingSection" hidden>
+  <h2>৪. যাত্রীর তথ্য</h2>
+  <label for="passenger">পুরো নাম</label>
+  <input id="passenger" placeholder="আপনার নাম">
+  <label for="phone">মোবাইল নম্বর</label>
+  <input id="phone" type="tel" placeholder="01XXXXXXXXX">
+  <div id="finalSummary" class="summary" style="margin-top:14px"></div>
+  <button class="primary" onclick="sendBooking()">WhatsApp-এ বুকিং অনুরোধ পাঠান</button>
+  <p class="small">বুকিং কর্তৃপক্ষ নিশ্চিত না করা পর্যন্ত আসন চূড়ান্তভাবে সংরক্ষিত নয়।</p>
+</section>
 </main>
 
 <script>
-// আপনার WhatsApp নম্বর দিন: দেশের কোডসহ, + চিহ্ন ছাড়া
+// নিজের বুকিং WhatsApp নম্বর দিন: দেশের কোডসহ, + চিহ্ন ছাড়া
 const WHATSAPP_NUMBER = "8801XXXXXXXXX";
 
-// প্রতি আসনের নমুনা ভাড়া
-const FARE = 800;
+// নমুনা বাসের তথ্য ও ভাড়া
+const buses = [
+ {id:1,name:"Rowmari Express",type:"নন-এসি",time:"সকাল ৭:০০",arrival:"দুপুর ১:০০",fare:800},
+ {id:2,name:"Green Line (Demo)",type:"এসি",time:"রাত ৯:০০",arrival:"ভোর ৪:০০",fare:1400},
+ {id:3,name:"Rowmari Deluxe",type:"নন-এসি",time:"রাত ১০:০০",arrival:"ভোর ৫:০০",fare:900}
+];
 
-// পরীক্ষার জন্য সংরক্ষিত আসন। প্রকৃত বুকিং ডেটাবেস থেকে আসতে হবে।
-const BOOKED_SEATS = [];
+// পরীক্ষার জন্য সংরক্ষিত সিট। সব বাসের জন্য আলাদাভাবে সেট করা যায়।
+const bookedSeats = {
+  1:["A1","A2"],
+  2:["B1","B2"],
+  3:["C1"]
+};
 
-const selected = new Set();
-const seatArea = document.getElementById("seats");
-document.getElementById("fare").textContent = FARE;
+let currentBus = null;
+let selectedSeats = [];
 
-document.getElementById("date").min =
-  new Date(Date.now() - new Date().getTimezoneOffset()*60000)
-  .toISOString().slice(0,10);
+const $ = id => document.getElementById(id);
 
-for(let row=1; row<=8; row++){
-  for(let col=1; col<=4; col++){
-    const id = String.fromCharCode(64+row)+col;
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "seat";
-    btn.textContent = id;
+const today = new Date();
+today.setMinutes(today.getMinutes()-today.getTimezoneOffset());
+$("date").min = today.toISOString().slice(0,10);
+$("date").value = today.toISOString().slice(0,10);
 
-    if(BOOKED_SEATS.includes(id)){
-      btn.classList.add("booked");
-      btn.disabled = true;
-    } else {
-      btn.onclick = () => {
-        if(selected.has(id)){
-          selected.delete(id);
-          btn.classList.remove("selected");
-        } else {
-          selected.add(id);
-          btn.classList.add("selected");
-        }
-        update();
-      };
-    }
-    seatArea.appendChild(btn);
-  }
+$("from").addEventListener("change",()=>{
+ if($("from").value === $("to").value){
+   $("to").value = $("from").value === "Dhaka" ? "Rowmari" : "Dhaka";
+ }
+});
+$("to").addEventListener("change",()=>{
+ if($("from").value === $("to").value){
+   $("from").value = $("to").value === "Dhaka" ? "Rowmari" : "Dhaka";
+ }
+});
+
+function searchBuses(){
+ const date = $("date").value;
+ if(!date){alert("যাত্রার তারিখ নির্বাচন করুন।");return;}
+ if($("from").value === $("to").value){
+   alert("যাত্রার শুরু ও গন্তব্য আলাদা হতে হবে।");return;
+ }
+
+ $("busSection").hidden = false;
+ $("seatSection").hidden = true;
+ $("bookingSection").hidden = true;
+ $("busList").innerHTML = "";
+
+ buses.forEach(bus=>{
+  const div = document.createElement("div");
+  div.className = "bus-option";
+  div.innerHTML = `
+   <h3>${bus.name}</h3>
+   <div>${bus.type} · ${bus.time} ছাড়বে</div>
+   <div class="muted">আনুমানিক পৌঁছানো: ${bus.arrival}</div>
+   <p class="price">${bus.fare} টাকা / সিট</p>
+   <button class="primary" type="button">এই বাস নির্বাচন করুন</button>`;
+  div.querySelector("button").onclick=()=>chooseBus(bus);
+  $("busList").appendChild(div);
+ });
+ $("busSection").scrollIntoView({behavior:"smooth"});
 }
 
-function update(){
-  document.getElementById("chosen").textContent =
-    selected.size ? [...selected].join(", ") : "কোনো আসন নয়";
-  document.getElementById("total").textContent =
-    "মোট ভাড়া: " + (selected.size * FARE) + " টাকা";
+function chooseBus(bus){
+ currentBus = bus;
+ selectedSeats = [];
+ $("bookingSection").hidden = true;
+ $("seatSection").hidden = false;
+ $("selectedBusInfo").innerHTML =
+  `<b>${bus.name}</b><p class="muted">${bus.type} · ${bus.time} · ${$("from").value} → ${$("to").value}</p>`;
+
+ renderSeats();
+ updateSummary();
+ $("seatSection").scrollIntoView({behavior:"smooth"});
 }
 
-function book(){
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const date = document.getElementById("date").value;
-  const route = document.getElementById("route").value;
+function renderSeats(){
+ const grid = $("seatGrid");
+ grid.innerHTML = "";
+ const booked = bookedSeats[currentBus.id] || [];
 
-  if(!name || !phone || !date || selected.size===0){
-    alert("নাম, মোবাইল, তারিখ দিন এবং অন্তত একটি আসন নির্বাচন করুন।");
-    return;
+ // ৮ সারি × ৪ সিট = ৩২টি নমুনা সিট
+ for(let row=0;row<8;row++){
+  for(let col=0;col<5;col++){
+   if(col===2){
+    const aisle=document.createElement("div");
+    aisle.className="aisle";
+    grid.appendChild(aisle);
+    continue;
+   }
+   const seatNum = col<2 ? col+1 : col-1;
+   const id = String.fromCharCode(65+row)+seatNum;
+   const btn=document.createElement("button");
+   btn.type="button";
+   btn.className="seat";
+   btn.textContent=id;
+
+   if(booked.includes(id)){
+    btn.classList.add("booked");
+    btn.disabled=true;
+    btn.title="ডেমোতে সংরক্ষিত";
+   } else {
+    btn.onclick=()=>{
+     if(selectedSeats.includes(id)){
+      selectedSeats=selectedSeats.filter(s=>s!==id);
+     } else {
+      if(selectedSeats.length >= Number($("count").value)){
+       alert("আপনার নির্বাচিত যাত্রী সংখ্যার বেশি সিট নিতে পারবেন না।");
+       return;
+      }
+      selectedSeats.push(id);
+     }
+     renderSeats();
+     updateSummary();
+    };
+   }
+   if(selectedSeats.includes(id))btn.classList.add("selected");
+   grid.appendChild(btn);
   }
+ }
+}
 
-  if(!/^01[3-9]\d{8}$/.test(phone)){
-    alert("সঠিক ১১ সংখ্যার বাংলাদেশি মোবাইল নম্বর দিন।");
-    return;
-  }
+function updateSummary(){
+ $("chosenSeats").textContent=selectedSeats.length ? selectedSeats.join(", ") : "নেই";
+ $("totalFare").textContent=(selectedSeats.length*(currentBus?.fare||0)).toLocaleString("en-US")+" টাকা";
+}
 
-  if(WHATSAPP_NUMBER.includes("X")){
-    alert("প্রথমে কোডে আপনার WhatsApp নম্বর বসান।");
-    return;
-  }
+function showBooking(){
+ if(!selectedSeats.length){
+  alert("আগে অন্তত একটি সিট নির্বাচন করুন।");return;
+ }
+ if(selectedSeats.length!==Number($("count").value)){
+  alert("আপনি যতজন যাত্রী নির্বাচন করেছেন, ঠিক ততটি সিট নির্বাচন করুন।");return;
+ }
+ $("bookingSection").hidden=false;
+ $("finalSummary").innerHTML =
+  `বাস: <b>${currentBus.name}</b><br>`+
+  `রুট: ${$("from").value} → ${$("to").value}<br>`+
+  `তারিখ: ${$("date").value}<br>`+
+  `সিট: <b>${selectedSeats.join(", ")}</b><br>`+
+  `মোট: <b>${(selectedSeats.length*currentBus.fare).toLocaleString("en-US")} টাকা</b>`;
+ $("bookingSection").scrollIntoView({behavior:"smooth"});
+}
 
-  const message =
-    "BusTicketRowmari বুকিং অনুরোধ%0A" +
-    "নাম: " + encodeURIComponent(name) + "%0A" +
-    "মোবাইল: " + encodeURIComponent(phone) + "%0A" +
-    "রুট: " + encodeURIComponent(route) + "%0A" +
-    "তারিখ: " + encodeURIComponent(date) + "%0A" +
-    "আসন: " + encodeURIComponent([...selected].join(", ")) + "%0A" +
-    "মোট ভাড়া: " + (selected.size * FARE) + " টাকা";
+function sendBooking(){
+ const name=$("passenger").value.trim();
+ const phone=$("phone").value.trim();
 
-  window.open(
-    "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + message,
-    "_blank"
-  );
+ if(!name||!phone){alert("নাম ও মোবাইল নম্বর লিখুন।");return;}
+ if(!/^01[3-9]\d{8}$/.test(phone)){
+  alert("সঠিক ১১ সংখ্যার বাংলাদেশি মোবাইল নম্বর লিখুন।");return;
+ }
+ if(WHATSAPP_NUMBER.includes("X")){
+  alert("কোডে আপনার WhatsApp নম্বর বসান।");return;
+ }
+
+ const message=[
+  "BusTicketRowmari বুকিং অনুরোধ",
+  "নাম: "+name,
+  "মোবাইল: "+phone,
+  "রুট: "+$("from").value+" → "+$("to").value,
+  "তারিখ: "+$("date").value,
+  "বাস: "+currentBus.name,
+  "সিট: "+selectedSeats.join(", "),
+  "মোট ভাড়া: "+(selectedSeats.length*currentBus.fare)+" টাকা"
+ ].join("\n");
+
+ window.open(
+  "https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message),
+  "_blank"
+ );
 }
 </script>
 </body>
