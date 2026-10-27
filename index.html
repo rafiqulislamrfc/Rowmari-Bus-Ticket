@@ -52,13 +52,13 @@ button{cursor:pointer}
     <div>
       <label for="from">কোথা থেকে</label>
       <select id="from">
-        <option>Rowmari</option><option>Dhaka</option>
+        <option>Rowmari</option><option>Dhaka(Mohakhali)</option>
       </select>
     </div>
     <div>
       <label for="to">কোথায় যাবেন</label>
       <select id="to">
-        <option>Dhaka</option><option>Rowmari</option>
+        <option>Dhaka(Mohakhali)</option><option>Rowmari</option>
       </select>
     </div>
     <div>
@@ -199,8 +199,8 @@ function renderSeats(){
  grid.innerHTML = "";
  const booked = bookedSeats[currentBus.id] || [];
 
- // ৮ সারি × ৪ সিট = ৩২টি নমুনা সিট
- for(let row=0;row<8;row++){
+ // ৮ সারি × ৪ সিট = ৪০টি নমুনা সিট
+ for(let row=0;row<10;row++){
   for(let col=0;col<5;col++){
    if(col===2){
     const aisle=document.createElement("div");
